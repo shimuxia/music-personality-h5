@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { HomePage } from './pages/HomePage'
 import { QuizPage } from './pages/QuizPage'
 import { ResultPage } from './pages/ResultPage'
+import { Toast } from './components/shared/Toast'
 import { questions } from './data/questions'
 import { resultProfiles } from './data/results'
 import { resolveQuizResult } from './lib/quiz'
@@ -16,6 +17,15 @@ function App() {
   const [result, setResult] = useState<ResultProfile | null>(null)
   const [hasCopied, setHasCopied] = useState(false)
   const [copyFailed, setCopyFailed] = useState(false)
+  const [toast, setToast] = useState<{
+    message: string
+    type: 'success' | 'error'
+    isVisible: boolean
+  }>({
+    message: '',
+    type: 'success',
+    isVisible: false,
+  })
   const copyTimerRef = useRef<number | null>(null)
 
   useEffect(() => {
@@ -39,6 +49,7 @@ function App() {
     setResult(null)
     setHasCopied(false)
     setCopyFailed(false)
+    setToast({ message: '', type: 'success', isVisible: false })
     setView('home')
   }
 
@@ -63,10 +74,19 @@ function App() {
       return
     }
 
+    const shareText = `${result.shareLine}
+
+来测你的天命音符 → https://music-personality-h5.vercel.app/`
+
     try {
-      await navigator.clipboard.writeText(result.shareLine)
+      await navigator.clipboard.writeText(shareText)
       setHasCopied(true)
       setCopyFailed(false)
+      setToast({
+        message: '✅ 已复制到剪贴板',
+        type: 'success',
+        isVisible: true,
+      })
 
       if (copyTimerRef.current) {
         window.clearTimeout(copyTimerRef.current)
@@ -78,6 +98,11 @@ function App() {
     } catch {
       setCopyFailed(true)
       setHasCopied(false)
+      setToast({
+        message: '❌ 复制失败，请手动截图分享',
+        type: 'error',
+        isVisible: true,
+      })
 
       if (copyTimerRef.current) {
         window.clearTimeout(copyTimerRef.current)
@@ -87,6 +112,10 @@ function App() {
         setCopyFailed(false)
       }, COPY_RESET_MS)
     }
+  }
+
+  const handleToastClose = () => {
+    setToast(prev => ({ ...prev, isVisible: false }))
   }
 
   return (
@@ -127,6 +156,13 @@ function App() {
             copyFailed={copyFailed}
           />
         )}
+
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          isVisible={toast.isVisible}
+          onClose={handleToastClose}
+        />
       </div>
     </div>
   )
