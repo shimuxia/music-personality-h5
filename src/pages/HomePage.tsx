@@ -4,11 +4,10 @@ import { HeroBackground } from '../components/shared/HeroBackground'
 
 interface HomePageProps {
   profiles: ResultProfile[]
-  questionCount: number
   onStart: () => void
 }
 
-export function HomePage({ profiles, questionCount, onStart }: HomePageProps) {
+export function HomePage({ profiles, onStart }: HomePageProps) {
   // 滚动显现hooks
   const sectionReveal = useScrollReveal<HTMLElement>({ threshold: 0.2 })
   const titleReveal = useScrollReveal<HTMLHeadingElement>({ threshold: 0.3 })
@@ -64,7 +63,7 @@ export function HomePage({ profiles, questionCount, onStart }: HomePageProps) {
                   animation: 'heroFadeUp 0.7s ease-out 0.65s both'
                 }}
               >
-                {questionCount} 道题，不到 1 分钟，找到属于你的音格。
+                10 道题，不到 1 分钟，找到属于你的音格。
               </p>
 
               <div
@@ -87,10 +86,11 @@ export function HomePage({ profiles, questionCount, onStart }: HomePageProps) {
 
                   <button
                     type="button"
-                    className="group inline-flex items-center justify-center rounded-[32px] border border-sand/30 bg-transparent px-9 py-[14px] text-[15px] font-medium text-sand/80 transition-all duration-300 hover:bg-sand/10 hover:border-sand/50 hover:-translate-y-[2px] focus:outline-none focus:ring-2 focus:ring-sand/30 focus:ring-offset-2 focus:ring-offset-transparent"
+                    disabled
+                    className="group inline-flex items-center justify-center rounded-[32px] border border-mist/10 bg-transparent px-9 py-[14px] text-[13px] font-light text-mist/40 transition-all duration-300 cursor-not-allowed"
                   >
                     进入精确版
-                    <span className="ml-2 text-[11px] text-sand/60">Coming Soon</span>
+                    <span className="ml-2 text-[10px] text-mist/25">Coming Soon</span>
                   </button>
                 </div>
 

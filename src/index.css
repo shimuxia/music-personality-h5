@@ -262,206 +262,399 @@ button {
   transform: translateY(0);
 }
 
-/* ============ 钢琴背景效果样式 ============ */
+/* ============ 音乐弹奏背景效果样式 ============ */
 
-/* 第1层：基础深色背景 */
-.bg-hero-base {
+/* 第1层：深蓝黑音乐基础背景 */
+.musical-base {
   background:
-    radial-gradient(ellipse 120% 80% at 50% 20%, rgba(5, 20, 35, 0.4), transparent 50%),
-    radial-gradient(ellipse 80% 60% at 20% 80%, rgba(10, 15, 25, 0.3), transparent 40%),
-    linear-gradient(180deg, #05070b 0%, #07101a 50%, #0a1320 100%);
+    /* 顶部深蓝渐变 */
+    radial-gradient(ellipse 100% 60% at 50% 0%, rgba(10, 25, 47, 0.4), transparent 70%),
+    /* 中央舞台光环 */
+    radial-gradient(ellipse 80% 40% at 50% 75%, rgba(20, 35, 60, 0.2), transparent 60%),
+    /* 底部深色基调 */
+    linear-gradient(180deg, #05070b 0%, #08111c 40%, #0a1525 100%);
 }
 
-/* 第2层：钢琴键CSS补充效果 */
-.piano-keys-pattern {
-  background:
-    /* 键盘底座阴影 */
-    linear-gradient(180deg, transparent 55%, rgba(255,255,255,0.015) 85%, rgba(0,0,0,0.2) 90%, transparent 100%),
-    /* 键盘区域轻微高光 */
-    linear-gradient(180deg, transparent 60%, rgba(255,255,255,0.008) 65%, transparent 75%);
-}
-
-/* SVG钢琴键增强动画 */
-.piano-keys-svg .piano-white-key {
-  animation: subtleKeyGlow 12s ease-in-out infinite;
-}
-
-.piano-keys-svg .piano-black-key {
-  animation: subtleKeyGlow 12s ease-in-out infinite reverse;
-}
-
-@keyframes subtleKeyGlow {
-  0%, 100% {
-    opacity: 0.6;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-/* 第3层：流动光带CSS */
-.flowing-lights {
-  background:
-    /* 主光流 */
-    linear-gradient(90deg,
-      transparent 0%,
-      rgba(0,191,255,0.08) 25%,
-      rgba(64,224,208,0.12) 50%,
-      rgba(0,191,255,0.08) 75%,
-      transparent 100%
-    );
-  background-size: 200% 100%;
-  animation: flowingLights 8s linear infinite;
+/* 第2层：钢琴舞台区域 */
+.piano-stage {
+  position: relative;
   height: 100%;
+}
+
+/* 钢琴键盘主体 */
+.piano-keyboard {
+  position: absolute;
+  bottom: 15%;
+  left: 0;
+  right: 0;
+  height: 20%;
+  transform: perspective(800px) rotateX(25deg);
+  transform-origin: center bottom;
+}
+
+/* 白键样式与弹奏动画 */
+.white-keys {
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  left: 5%;
+  right: 5%;
+  height: 100%;
+}
+
+.white-key {
+  flex: 1;
+  margin: 0 1px;
+  background: linear-gradient(180deg,
+    rgba(255,255,255,0.12) 0%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.04) 100%
+  );
+  border-radius: 2px 2px 0 0;
+  animation: keyPress 4s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+@keyframes keyPress {
+  0%, 85%, 100% {
+    transform: translateY(0) scaleY(1);
+    background: linear-gradient(180deg,
+      rgba(255,255,255,0.12) 0%,
+      rgba(255,255,255,0.08) 50%,
+      rgba(255,255,255,0.04) 100%
+    );
+    box-shadow: none;
+  }
+  5%, 15% {
+    transform: translateY(2px) scaleY(0.95);
+    background: linear-gradient(180deg,
+      rgba(64,224,208,0.25) 0%,
+      rgba(0,191,255,0.15) 50%,
+      rgba(255,255,255,0.08) 100%
+    );
+    box-shadow: 0 0 20px rgba(64,224,208,0.4);
+  }
+}
+
+/* 黑键样式与弹奏动画 */
+.black-keys {
+  position: absolute;
+  bottom: 40%;
+  left: 5%;
+  right: 5%;
+  height: 60%;
+}
+
+.black-key {
+  position: absolute;
+  width: 3.5%;
+  height: 100%;
+  background: linear-gradient(180deg,
+    rgba(0,0,0,0.8) 0%,
+    rgba(0,0,0,0.6) 100%
+  );
+  border-radius: 2px 2px 0 0;
+  animation: blackKeyPress 5s ease-in-out infinite;
+}
+
+@keyframes blackKeyPress {
+  0%, 88%, 100% {
+    transform: translateY(0) scaleY(1);
+    background: linear-gradient(180deg,
+      rgba(0,0,0,0.8) 0%,
+      rgba(0,0,0,0.6) 100%
+    );
+    box-shadow: none;
+  }
+  8%, 12% {
+    transform: translateY(3px) scaleY(0.9);
+    background: linear-gradient(180deg,
+      rgba(64,224,208,0.3) 0%,
+      rgba(0,0,0,0.7) 100%
+    );
+    box-shadow: 0 0 15px rgba(0,191,255,0.6);
+  }
+}
+
+/* 按键发光点 */
+.key-lights {
+  position: absolute;
+  bottom: 35%;
+  left: 0;
+  right: 0;
+  height: 2px;
+}
+
+.key-light {
+  position: absolute;
+  width: 8px;
+  height: 2px;
+  background: rgba(64,224,208,0.8);
+  border-radius: 50%;
+  animation: keyLightPulse 3s ease-in-out infinite;
+}
+
+@keyframes keyLightPulse {
+  0%, 90%, 100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  5%, 15% {
+    opacity: 1;
+    transform: scale(2);
+    box-shadow: 0 0 20px rgba(64,224,208,0.6);
+  }
+}
+
+/* 第3层：音符流动层 */
+.music-flow-layer {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* 上升音符粒子 */
+.music-notes {
+  position: absolute;
+  bottom: 35%;
+  left: 0;
+  right: 0;
+  height: 60%;
+}
+
+.music-note {
+  position: absolute;
+  color: rgba(64,224,208,0.6);
+  font-size: 16px;
+  font-weight: 300;
+  animation: noteRise 5s ease-out infinite;
+  pointer-events: none;
+}
+
+.music-note-0 { color: rgba(64,224,208,0.7); }
+.music-note-1 { color: rgba(0,191,255,0.6); }
+.music-note-2 { color: rgba(100,200,200,0.5); }
+.music-note-3 { color: rgba(64,224,208,0.8); }
+
+@keyframes noteRise {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.5) rotate(0deg);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(-20px) scale(1) rotate(15deg);
+  }
+  80% {
+    opacity: 0.8;
+    transform: translateY(-200px) scale(0.8) rotate(180deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-300px) scale(0.3) rotate(360deg);
+  }
+}
+
+/* 音波扩散效果 */
+.sound-waves {
+  position: absolute;
+  bottom: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.sound-wave {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border: 1px solid rgba(64,224,208,0.2);
+  border-radius: 50%;
+  animation: waveExpand 3s ease-out infinite;
+  left: -100px;
+  top: -100px;
+}
+
+@keyframes waveExpand {
+  0% {
+    transform: scale(0.2);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(1.5);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+/* 第4层：光流动效果 */
+.light-streams {
+  position: relative;
+  height: 100%;
+}
+
+.stream {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(64,224,208,0.3) 20%,
+    rgba(0,191,255,0.6) 50%,
+    rgba(64,224,208,0.3) 80%,
+    transparent 100%
+  );
+  border-radius: 1px;
+  animation: streamFlow 6s linear infinite;
+}
+
+.stream-1 {
+  top: 45%;
+  left: -50%;
+  width: 200%;
+  animation-delay: 0s;
+}
+
+.stream-2 {
+  top: 65%;
+  left: -50%;
+  width: 200%;
+  animation-delay: -2s;
   opacity: 0.7;
 }
 
-@keyframes flowingLights {
+.stream-3 {
+  top: 55%;
+  left: -50%;
+  width: 200%;
+  animation-delay: -4s;
+  opacity: 0.5;
+}
+
+@keyframes streamFlow {
   0% {
-    background-position: -100% 0;
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  10%, 90% {
+    opacity: 1;
   }
   100% {
-    background-position: 100% 0;
-  }
-}
-
-/* SVG光流动画 */
-.light-flow {
-  animation: lightFlow 6s ease-in-out infinite;
-  opacity: 0;
-}
-
-.light-flow-1 {
-  animation-duration: 5s;
-}
-
-.light-flow-2 {
-  animation-duration: 7s;
-}
-
-@keyframes lightFlow {
-  0%, 100% {
+    transform: translateX(0%);
     opacity: 0;
-    stroke-dasharray: 0 100;
-    stroke-dashoffset: 0;
-  }
-  30% {
-    opacity: 0.6;
-    stroke-dasharray: 20 80;
-    stroke-dashoffset: -10;
-  }
-  70% {
-    opacity: 0.4;
-    stroke-dasharray: 15 85;
-    stroke-dashoffset: -30;
-  }
-}
-
-/* 第4层：粒子效果 */
-.floating-particles {
-  /* CSS粒子背景 */
-  background-image:
-    radial-gradient(2px 2px at 20% 30%, rgba(64,224,208,0.3), transparent),
-    radial-gradient(1px 1px at 80% 70%, rgba(0,191,255,0.4), transparent),
-    radial-gradient(1.5px 1.5px at 60% 50%, rgba(64,224,208,0.2), transparent),
-    radial-gradient(1px 1px at 40% 80%, rgba(0,191,255,0.3), transparent);
-  background-size: 800px 600px, 600px 400px, 900px 700px, 500px 300px;
-  background-repeat: no-repeat;
-  animation: particleFloat 20s ease-in-out infinite;
-}
-
-@keyframes particleFloat {
-  0%, 100% {
-    transform: translateY(0px);
-    opacity: 0.4;
-  }
-  25% {
-    transform: translateY(-10px);
-    opacity: 0.7;
-  }
-  50% {
-    transform: translateY(-5px);
-    opacity: 0.5;
-  }
-  75% {
-    transform: translateY(-15px);
-    opacity: 0.6;
-  }
-}
-
-/* SVG粒子动画 */
-.floating-particle {
-  animation: particleBob 4s ease-in-out infinite;
-  opacity: 0;
-}
-
-@keyframes particleBob {
-  0%, 100% {
-    opacity: 0.2;
-    transform: translateY(0px) scale(1);
-  }
-  25% {
-    opacity: 0.6;
-    transform: translateY(-8px) scale(1.1);
-  }
-  50% {
-    opacity: 0.4;
-    transform: translateY(-4px) scale(0.9);
-  }
-  75% {
-    opacity: 0.5;
-    transform: translateY(-12px) scale(1.05);
   }
 }
 
 /* 第5层：内容保护遮罩 */
-.content-protection {
+.content-protection-new {
   background:
-    /* 中央内容区域保护 */
-    radial-gradient(ellipse 60% 50% at 50% 40%, transparent 20%, rgba(6,7,10,0.1) 40%, rgba(6,7,10,0.3) 70%),
-    /* 底部渐变保护 */
-    linear-gradient(180deg, transparent 0%, transparent 70%, rgba(6,7,10,0.4) 90%, rgba(6,7,10,0.7) 100%),
+    /* 中心内容区域保护 */
+    radial-gradient(ellipse 70% 50% at 50% 35%, transparent 25%, rgba(5,7,11,0.1) 45%, rgba(5,7,11,0.4) 75%),
+    /* 底部舞台遮罩 */
+    linear-gradient(180deg, transparent 0%, transparent 65%, rgba(5,7,11,0.3) 85%, rgba(5,7,11,0.8) 100%),
     /* 顶部轻微保护 */
-    linear-gradient(180deg, rgba(6,7,10,0.2) 0%, transparent 30%);
+    linear-gradient(180deg, rgba(5,7,11,0.3) 0%, transparent 25%);
 }
 
-/* 响应式适配 */
+/* SVG 增强动画 */
+.svg-note {
+  animation: svgNoteFloat 4s ease-in-out infinite;
+  opacity: 0;
+}
+
+@keyframes svgNoteFloat {
+  0%, 100% {
+    opacity: 0;
+    transform: translateY(0) rotate(0deg);
+  }
+  20%, 80% {
+    opacity: 0.6;
+    transform: translateY(-15px) rotate(15deg);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(-25px) rotate(-10deg);
+  }
+}
+
+.svg-wave {
+  animation: svgWaveExpand 4s ease-out infinite;
+  opacity: 0;
+}
+
+@keyframes svgWaveExpand {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  30% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+}
+
+/* 移动端优化 */
 @media (max-width: 768px) {
-  .bg-hero-base {
-    background:
-      radial-gradient(ellipse 150% 100% at 50% 30%, rgba(5, 20, 35, 0.3), transparent 60%),
-      linear-gradient(180deg, #05070b 0%, #07101a 100%);
+  .piano-keyboard {
+    bottom: 10%;
+    height: 15%;
+    transform: perspective(600px) rotateX(20deg);
   }
 
-  .piano-keys-pattern {
-    opacity: 0.7;
+  .music-note {
+    font-size: 12px;
   }
 
-  .flowing-lights {
-    opacity: 0.5;
-    animation-duration: 10s;
+  .sound-wave {
+    width: 120px;
+    height: 120px;
+    left: -60px;
+    top: -60px;
   }
 
-  .floating-particles {
+  .stream {
     opacity: 0.6;
   }
 
-  .piano-keys-svg {
-    opacity: 0.8;
+  .key-light {
+    width: 4px;
+    height: 1px;
+  }
+
+  .musical-base {
+    background:
+      radial-gradient(ellipse 120% 70% at 50% 80%, rgba(20, 35, 60, 0.15), transparent 70%),
+      linear-gradient(180deg, #05070b 0%, #08111c 100%);
   }
 }
 
 /* 减动效偏好支持 */
 @media (prefers-reduced-motion: reduce) {
-  .flowing-lights,
-  .light-flow,
-  .floating-particle,
-  .floating-particles {
+  .white-key,
+  .black-key,
+  .key-light,
+  .music-note,
+  .sound-wave,
+  .stream,
+  .svg-note,
+  .svg-wave {
     animation: none;
   }
 
-  .piano-keys-svg .piano-white-key,
-  .piano-keys-svg .piano-black-key {
-    animation: none;
+  .white-key {
+    background: rgba(255,255,255,0.08);
+  }
+
+  .black-key {
+    background: rgba(0,0,0,0.6);
+  }
+
+  .music-note {
+    opacity: 0.3;
   }
 }

@@ -70,8 +70,8 @@ export function ResultPage({
                 {copyFailed
                   ? '✗ 复制失败，请手动长按截图'
                   : copied
-                  ? '✓ 已复制，可以去粘贴分享'
-                  : '📱 复制朋友圈文案'
+                  ? '✓ 已复制分享文案'
+                  : '📱 复制分享文案'
                 }
               </button>
               <button
@@ -84,7 +84,7 @@ export function ResultPage({
             </div>
             <p className="text-[12px] text-mist/45 flex items-center gap-2">
               <span className="text-sand/50">📸</span>
-              长按截图分享你的音符人格
+              保存结果卡分享
             </p>
           </div>
 

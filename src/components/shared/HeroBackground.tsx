@@ -5,125 +5,154 @@ interface HeroBackgroundProps {
 export function HeroBackground({ className = "" }: HeroBackgroundProps) {
   return (
     <div className={`absolute inset-0 overflow-hidden ${className}`}>
-      {/* 第1层：基础深色背景 */}
-      <div className="absolute inset-0 bg-hero-base"></div>
+      {/* 第1层：深蓝黑渐变基础 */}
+      <div className="absolute inset-0 musical-base"></div>
 
-      {/* 第2层：横向钢琴键暗纹 */}
-      <div className="absolute inset-0 piano-keys-pattern"></div>
+      {/* 第2层：钢琴舞台区域 */}
+      <div className="absolute inset-0 piano-stage">
+        {/* 主钢琴键盘 - CSS版本 */}
+        <div className="piano-keyboard">
+          {/* 白键组 */}
+          <div className="white-keys">
+            {Array.from({length: 14}, (_, i) => (
+              <div
+                key={`white-${i}`}
+                className={`white-key white-key-${i}`}
+                style={{ animationDelay: `${i * 0.3}s` }}
+              />
+            ))}
+          </div>
+          {/* 黑键组 */}
+          <div className="black-keys">
+            {[1, 2, 4, 5, 6, 8, 9, 11, 12, 13].map((i, index) => (
+              <div
+                key={`black-${i}`}
+                className={`black-key black-key-${i}`}
+                style={{
+                  left: `${i * 7.14 - 1.5}%`,
+                  animationDelay: `${index * 0.4 + 0.2}s`
+                }}
+              />
+            ))}
+          </div>
+        </div>
 
-      {/* 第3层：蓝青色流动光带 */}
-      <div className="absolute inset-0 flowing-lights"></div>
+        {/* 按键发光点 */}
+        <div className="key-lights">
+          {Array.from({length: 8}, (_, i) => (
+            <div
+              key={`light-${i}`}
+              className={`key-light key-light-${i}`}
+              style={{
+                left: `${15 + i * 10}%`,
+                animationDelay: `${i * 1.2}s`
+              }}
+            />
+          ))}
+        </div>
+      </div>
 
-      {/* 第4层：粒子效果 */}
-      <div className="absolute inset-0 floating-particles"></div>
+      {/* 第3层：音符流动层 */}
+      <div className="absolute inset-0 music-flow-layer">
+        {/* 音符粒子上升 */}
+        <div className="music-notes">
+          {Array.from({length: 12}, (_, i) => (
+            <div
+              key={`note-${i}`}
+              className={`music-note music-note-${i % 4}`}
+              style={{
+                left: `${8 + i * 7}%`,
+                animationDelay: `${i * 0.8}s`,
+                animationDuration: `${4 + (i % 3)}s`
+              }}
+            >
+              ♪
+            </div>
+          ))}
+        </div>
+
+        {/* 音波扩散 */}
+        <div className="sound-waves">
+          {Array.from({length: 5}, (_, i) => (
+            <div
+              key={`wave-${i}`}
+              className={`sound-wave sound-wave-${i}`}
+              style={{ animationDelay: `${i * 1.5}s` }}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* 第4层：光流动效果 */}
+      <div className="absolute inset-0 light-streams">
+        <div className="stream stream-1"></div>
+        <div className="stream stream-2"></div>
+        <div className="stream stream-3"></div>
+      </div>
 
       {/* 第5层：内容保护遮罩 */}
-      <div className="absolute inset-0 content-protection"></div>
+      <div className="absolute inset-0 content-protection-new"></div>
 
-      {/* SVG定义 */}
+      {/* SVG 增强层 */}
       <svg className="absolute inset-0 pointer-events-none" width="100%" height="100%">
         <defs>
-          {/* 钢琴键渐变 */}
-          <linearGradient id="piano-white-key" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="rgba(255,255,255,0.08)" />
-            <stop offset="50%" stopColor="rgba(255,255,255,0.04)" />
-            <stop offset="100%" stopColor="rgba(255,255,255,0.01)" />
-          </linearGradient>
+          {/* 音符发光 */}
+          <filter id="noteGlow">
+            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
 
-          <linearGradient id="piano-black-key" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="rgba(0,0,0,0.4)" />
-            <stop offset="100%" stopColor="rgba(0,0,0,0.1)" />
-          </linearGradient>
-
-          {/* 流动光带渐变 */}
-          <linearGradient id="flow-gradient" x1="0%" y1="0%" x2="100%" y2="0%" gradientUnits="objectBoundingBox">
-            <stop offset="0%" stopColor="rgba(0,191,255,0)" />
-            <stop offset="30%" stopColor="rgba(64,224,208,0.15)" />
-            <stop offset="50%" stopColor="rgba(0,191,255,0.25)" />
-            <stop offset="70%" stopColor="rgba(64,224,208,0.15)" />
-            <stop offset="100%" stopColor="rgba(0,191,255,0)" />
-          </linearGradient>
-
-          {/* 粒子渐变 */}
-          <radialGradient id="particle-glow">
-            <stop offset="0%" stopColor="rgba(64,224,208,0.6)" />
-            <stop offset="50%" stopColor="rgba(0,191,255,0.3)" />
+          {/* 波纹渐变 */}
+          <radialGradient id="waveGradient" cx="50%" cy="50%">
+            <stop offset="0%" stopColor="rgba(64,224,208,0.15)" />
+            <stop offset="70%" stopColor="rgba(0,191,255,0.08)" />
             <stop offset="100%" stopColor="transparent" />
           </radialGradient>
+
+          {/* 光流渐变 */}
+          <linearGradient id="streamGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="transparent" />
+            <stop offset="20%" stopColor="rgba(64,224,208,0.1)" />
+            <stop offset="50%" stopColor="rgba(0,191,255,0.2)" />
+            <stop offset="80%" stopColor="rgba(64,224,208,0.1)" />
+            <stop offset="100%" stopColor="transparent" />
+          </linearGradient>
         </defs>
 
-        {/* 钢琴键SVG - 响应式 */}
-        <g className="piano-keys-svg">
-          {/* 白键 - 主要节奏 */}
-          {Array.from({length: 12}, (_, i) => (
-            <rect
-              key={`white-${i}`}
-              x={`${(i * 8.5) - 6}%`}
-              y="60%"
-              width="8%"
-              height="25%"
-              fill="url(#piano-white-key)"
-              rx="2"
-              className="piano-white-key"
-              style={{
-                transform: `perspective(600px) rotateX(15deg)`,
-                transformOrigin: 'center bottom'
-              }}
-            />
-          ))}
-
-          {/* 黑键 - 插入节奏 */}
-          {Array.from({length: 10}, (_, i) => (
-            <rect
-              key={`black-${i}`}
-              x={`${(i * 10.2) + 2}%`}
-              y="62%"
-              width="4%"
-              height="18%"
-              fill="url(#piano-black-key)"
-              rx="1"
-              className="piano-black-key"
-              style={{
-                transform: `perspective(600px) rotateX(15deg)`,
-                transformOrigin: 'center bottom'
-              }}
-            />
-          ))}
-        </g>
-
-        {/* 流动光带 */}
-        <g className="flowing-lights-svg">
-          <path
-            d="M-20,65 Q20,64 50,65 T120,65"
-            stroke="url(#flow-gradient)"
-            strokeWidth="2"
-            fill="none"
-            className="light-flow light-flow-1"
-          />
-          <path
-            d="M-20,68 Q30,67 60,68 T130,68"
-            stroke="url(#flow-gradient)"
-            strokeWidth="1.5"
-            fill="none"
-            className="light-flow light-flow-2"
-            style={{ animationDelay: '-1.5s' }}
-          />
-        </g>
-
-        {/* 粒子 */}
-        <g className="particles-svg">
+        {/* SVG 音符 */}
+        <g className="svg-musical-elements">
           {Array.from({length: 6}, (_, i) => (
+            <text
+              key={`svg-note-${i}`}
+              x={`${20 + i * 15}%`}
+              y={`${25 + (i % 2) * 20}%`}
+              fill="rgba(64,224,208,0.4)"
+              fontSize="14"
+              filter="url(#noteGlow)"
+              className="svg-note"
+              style={{ animationDelay: `${i * 0.6}s` }}
+            >
+              {['♪', '♫', '♪', '♬', '♪', '♫'][i]}
+            </text>
+          ))}
+        </g>
+
+        {/* SVG 波纹 */}
+        <g className="svg-waves">
+          {Array.from({length: 3}, (_, i) => (
             <circle
-              key={`particle-${i}`}
-              cx={`${15 + i * 12}%`}
-              cy={`${30 + (i % 3) * 15}%`}
-              r="1.5"
-              fill="url(#particle-glow)"
-              className="floating-particle"
-              style={{
-                animationDelay: `${i * -0.8}s`,
-                animationDuration: `${3 + i * 0.5}s`
-              }}
+              key={`svg-wave-${i}`}
+              cx="50%"
+              cy="75%"
+              r={`${10 + i * 15}%`}
+              fill="none"
+              stroke="url(#waveGradient)"
+              strokeWidth="1"
+              className="svg-wave"
+              style={{ animationDelay: `${i * 1}s` }}
             />
           ))}
         </g>

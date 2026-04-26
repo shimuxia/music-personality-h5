@@ -74,16 +74,17 @@ function App() {
       return
     }
 
-    const shareText = `${result.shareLine}
-
-来测你的天命音符 → https://music-personality-h5.vercel.app/`
+    const shareText = `我测出的天命音符是 ${result.note}「${result.title}」
+${result.subtitle}
+来测你的天命音符：
+https://music-personality-h5.vercel.app/`
 
     try {
       await navigator.clipboard.writeText(shareText)
       setHasCopied(true)
       setCopyFailed(false)
       setToast({
-        message: '✅ 已复制到剪贴板',
+        message: '✅ 已复制分享文案',
         type: 'success',
         isVisible: true,
       })
@@ -132,7 +133,6 @@ function App() {
         {view === 'home' && (
           <HomePage
             profiles={Object.values(resultProfiles)}
-            questionCount={questions.length}
             onStart={handleStart}
           />
         )}
