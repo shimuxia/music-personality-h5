@@ -60,9 +60,9 @@ button {
   );
 }
 
-/* 音符呼吸动画 */
 @keyframes breathe {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.3;
     transform: scale(1);
   }
@@ -73,7 +73,8 @@ button {
 }
 
 @keyframes innerGlow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.1;
   }
   50% {
@@ -82,19 +83,20 @@ button {
 }
 
 @keyframes textGlow {
-  0%, 100% {
-    filter: drop-shadow(0 0 8px rgba(255,255,255,0.2));
+  0%,
+  100% {
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
   }
   50% {
-    filter: drop-shadow(0 0 16px rgba(255,255,255,0.4));
+    filter: drop-shadow(0 0 16px rgba(255, 255, 255, 0.4));
   }
 }
 
-/* 音符浮动动画 */
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.3;
-    transform: translateY(0px);
+    transform: translateY(0);
   }
   33% {
     opacity: 0.6;
@@ -106,7 +108,6 @@ button {
   }
 }
 
-/* 题目切换动画 - 避免影响进度条 */
 @keyframes questionSlide {
   0% {
     opacity: 0;
@@ -129,7 +130,6 @@ button {
   }
 }
 
-/* 首页入场动画 */
 @keyframes heroFadeUp {
   0% {
     opacity: 0;
@@ -150,7 +150,7 @@ button {
   100% {
     opacity: 1;
     transform: translateX(0);
-    clip-path: inset(0 0% 0 0);
+    clip-path: inset(0 0 0 0);
   }
 }
 
@@ -166,7 +166,8 @@ button {
 }
 
 @keyframes subtleGlow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.03;
   }
   50% {
@@ -174,13 +175,11 @@ button {
   }
 }
 
-/* 视觉连接光晕 */
 .hero-glow {
   background: radial-gradient(ellipse 800px 200px at center, rgba(199, 176, 139, 0.05), transparent 70%);
   animation: subtleGlow 8s ease-in-out infinite;
 }
 
-/* 第二屏滚动入场动画 */
 @keyframes sectionTitleFade {
   0% {
     opacity: 0;
@@ -203,16 +202,14 @@ button {
   }
 }
 
-/* 第二屏背景光晕 */
 .section-glow {
   background: radial-gradient(ellipse 600px 400px at center bottom, rgba(199, 176, 139, 0.03), transparent 70%);
 }
 
-/* 音符卡片增强样式 */
 .note-card {
   background: rgba(255, 255, 255, 0.015);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .note-card:hover {
@@ -224,12 +221,12 @@ button {
   transform: translateY(-3px);
 }
 
-/* 滚动显现动画系统 */
 .scroll-reveal {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition:
+    opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .scroll-reveal.revealed {
@@ -240,8 +237,9 @@ button {
 .scroll-reveal-fast {
   opacity: 0;
   transform: translateY(16px);
-  transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition:
+    opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .scroll-reveal-fast.revealed {
@@ -249,12 +247,12 @@ button {
   transform: translateY(0);
 }
 
-/* stagger reveal 支持 */
 .stagger-item {
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition:
+    opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .stagger-item.revealed {
@@ -262,400 +260,109 @@ button {
   transform: translateY(0);
 }
 
-/* ============ 写实钢琴与音流可视化背景 ============ */
-
-/* 第1层：深色氛围基础 - 更有舞台感 */
-.musical-base-realistic {
-  background:
-    /* 舞台聚光 */
-    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(15, 30, 60, 0.3), transparent 70%),
-    /* 底部舞台光环 */
-    radial-gradient(ellipse 100% 30% at 50% 90%, rgba(25, 45, 80, 0.15), transparent 50%),
-    /* 深色基调 */
-    linear-gradient(180deg, #030508 0%, #060a12 30%, #08101a 70%, #0a1320 100%);
-}
-
-/* 第2层：写实钢琴区域 */
-.realistic-piano {
-  position: relative;
-  height: 100%;
-}
-
-/* 钢琴主体和阴影 */
-.piano-body {
+.hero-piano-container {
   position: absolute;
-  bottom: 8%;
-  left: 10%;
-  right: 10%;
-  height: 3%;
-  background: linear-gradient(180deg,
-    rgba(20, 20, 25, 0.8) 0%,
-    rgba(10, 10, 15, 0.9) 100%
-  );
-  border-radius: 4px;
-  box-shadow:
-    0 8px 30px rgba(0, 0, 0, 0.6),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-
-/* 写实钢琴键盘 */
-.piano-keyboard-realistic {
-  position: absolute;
-  bottom: 11%;
-  left: 10%;
-  right: 10%;
-  height: 18%;
-  transform: perspective(1000px) rotateX(20deg);
-  transform-origin: center bottom;
-}
-
-/* 写实白键 */
-.white-keys-realistic {
-  display: flex;
-  position: absolute;
+  inset-inline: 0;
   bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-  gap: 1px;
+  height: clamp(220px, 32vh, 380px);
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
 }
 
-.white-key-realistic {
-  flex: 1;
+.hero-piano-image {
+  position: absolute;
+  left: 50%;
+  bottom: -18px;
+  width: 100vw;
+  height: auto;
+  max-width: none;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: brightness(0.72) contrast(1.05) saturate(0.78);
+  opacity: 0.48;
+  transform: translateX(-50%);
+}
+
+.piano-top-mask {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 72%;
+  background: linear-gradient(
+    to bottom,
+    rgba(6, 7, 10, 1) 0%,
+    rgba(6, 7, 10, 0.86) 30%,
+    rgba(6, 7, 10, 0.46) 62%,
+    rgba(6, 7, 10, 0.12) 86%,
+    rgba(6, 7, 10, 0) 100%
+  );
+  z-index: 2;
+}
+
+.piano-side-fade {
+  position: absolute;
+  inset: 0;
   background:
-    linear-gradient(180deg,
-      #f4f2f0 0%,
-      #eae6e0 30%,
-      #ddd8d0 70%,
-      #d0c8bc 100%
-    );
-  border-radius: 2px 2px 0 0;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.8),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.1),
-    0 2px 8px rgba(0, 0, 0, 0.3);
-  position: relative;
-  transition: all 0.3s ease;
-  animation: realisticKeyPress 6s ease-in-out infinite;
+    linear-gradient(
+      to right,
+      rgba(6, 7, 10, 0.68) 0%,
+      rgba(6, 7, 10, 0.18) 16%,
+      rgba(6, 7, 10, 0.03) 32%,
+      rgba(6, 7, 10, 0.03) 68%,
+      rgba(6, 7, 10, 0.18) 84%,
+      rgba(6, 7, 10, 0.68) 100%
+    ),
+    radial-gradient(circle at center bottom, rgba(255, 255, 255, 0.05), transparent 48%);
+  z-index: 1;
 }
 
-.white-key-realistic::before {
-  content: '';
+.piano-bottom-fade {
   position: absolute;
-  top: 0;
-  left: 10%;
-  right: 10%;
-  height: 60%;
-  background: linear-gradient(180deg,
-    rgba(255, 255, 255, 0.4) 0%,
-    transparent 100%
-  );
-  border-radius: 1px;
-}
-
-.white-key-realistic.active-key {
-  animation-duration: 4s;
-}
-
-@keyframes realisticKeyPress {
-  0%, 90%, 100% {
-    transform: translateY(0) scale(1, 1);
-    background: linear-gradient(180deg,
-      #f4f2f0 0%,
-      #eae6e0 30%,
-      #ddd8d0 70%,
-      #d0c8bc 100%
-    );
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.8),
-      inset 0 -2px 4px rgba(0, 0, 0, 0.1),
-      0 2px 8px rgba(0, 0, 0, 0.3);
-  }
-  5%, 10% {
-    transform: translateY(3px) scale(1, 0.95);
-    background: linear-gradient(180deg,
-      #e8f4f2 0%,
-      #d4eae6 30%,
-      #c0ddd8 70%,
-      #acd0c8 100%
-    );
-    box-shadow:
-      inset 0 1px 0 rgba(64, 224, 208, 0.3),
-      inset 0 -1px 2px rgba(0, 0, 0, 0.2),
-      0 0 20px rgba(64, 224, 208, 0.4),
-      0 1px 4px rgba(0, 0, 0, 0.4);
-  }
-}
-
-/* 写实黑键 */
-.black-keys-realistic {
-  position: absolute;
-  bottom: 35%;
-  left: 0;
-  right: 0;
-  height: 65%;
-}
-
-.black-key-realistic {
-  position: absolute;
-  width: 3.5%;
-  height: 100%;
-  background: linear-gradient(180deg,
-    #1a1a1f 0%,
-    #0f0f12 30%,
-    #080808 70%,
-    #000000 100%
-  );
-  border-radius: 2px 2px 0 0;
-  box-shadow:
-    inset 0 1px 0 rgba(60, 60, 70, 0.5),
-    inset 0 -1px 2px rgba(0, 0, 0, 0.8),
-    0 3px 12px rgba(0, 0, 0, 0.6);
-  animation: realisticBlackKeyPress 7s ease-in-out infinite;
-}
-
-.black-key-realistic::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 20%;
-  right: 20%;
-  height: 40%;
-  background: linear-gradient(180deg,
-    rgba(80, 80, 90, 0.3) 0%,
-    transparent 100%
-  );
-  border-radius: 1px;
-}
-
-.black-key-realistic.active-key {
-  animation-duration: 5s;
-}
-
-@keyframes realisticBlackKeyPress {
-  0%, 92%, 100% {
-    transform: translateY(0) scale(1, 1);
-    background: linear-gradient(180deg,
-      #1a1a1f 0%,
-      #0f0f12 30%,
-      #080808 70%,
-      #000000 100%
-    );
-    box-shadow:
-      inset 0 1px 0 rgba(60, 60, 70, 0.5),
-      inset 0 -1px 2px rgba(0, 0, 0, 0.8),
-      0 3px 12px rgba(0, 0, 0, 0.6);
-  }
-  4%, 8% {
-    transform: translateY(2px) scale(1, 0.9);
-    background: linear-gradient(180deg,
-      #1f2a2f 0%,
-      #121f22 30%,
-      #081012 70%,
-      #000808 100%
-    );
-    box-shadow:
-      inset 0 1px 0 rgba(64, 224, 208, 0.2),
-      inset 0 -1px 1px rgba(0, 0, 0, 0.9),
-      0 0 15px rgba(0, 191, 255, 0.5),
-      0 1px 8px rgba(0, 0, 0, 0.7);
-  }
-}
-
-/* 按键反光效果 */
-.key-reflections {
-  position: absolute;
+  inset-inline: 0;
   bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-  pointer-events: none;
-}
-
-.key-reflection {
-  position: absolute;
-  height: 20%;
-  bottom: 60%;
-  border-radius: 50%;
-  animation: reflectionPulse 4s ease-in-out infinite;
-}
-
-.white-reflection {
-  width: 3%;
-  background: radial-gradient(ellipse,
-    rgba(64, 224, 208, 0.15) 0%,
-    rgba(64, 224, 208, 0.05) 50%,
-    transparent 100%
+  height: 38%;
+  background: linear-gradient(
+    to bottom,
+    rgba(6, 7, 10, 0) 0%,
+    rgba(6, 7, 10, 0.24) 42%,
+    rgba(6, 7, 10, 0.72) 78%,
+    rgba(6, 7, 10, 0.94) 92%,
+    rgba(6, 7, 10, 1) 100%
   );
+  z-index: 3;
 }
 
-.black-reflection {
-  width: 2%;
-  background: radial-gradient(ellipse,
-    rgba(0, 191, 255, 0.2) 0%,
-    rgba(0, 191, 255, 0.08) 50%,
-    transparent 100%
-  );
-}
-
-@keyframes reflectionPulse {
-  0%, 90%, 100% {
-    opacity: 0.3;
-    transform: scale(1);
-  }
-  5%, 10% {
-    opacity: 1;
-    transform: scale(1.5);
-  }
-}
-
-/* Canvas 音流层样式 */
-.music-streams-canvas {
-  mix-blend-mode: screen;
-  opacity: 0.8;
-}
-
-/* 第4层：环境光效 */
-.ambient-lighting {
-  position: relative;
-  height: 100%;
-  pointer-events: none;
-}
-
-.stage-glow {
-  position: absolute;
-  bottom: 25%;
-  left: 20%;
-  right: 20%;
-  height: 20%;
-  background: radial-gradient(ellipse 100% 50% at center,
-    rgba(64, 224, 208, 0.03) 0%,
-    rgba(0, 191, 255, 0.02) 50%,
-    transparent 100%
-  );
-  animation: stageGlowPulse 8s ease-in-out infinite;
-}
-
-@keyframes stageGlowPulse {
-  0%, 100% {
-    opacity: 0.4;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.1);
-  }
-}
-
-.piano-rim-light {
-  position: absolute;
-  bottom: 11%;
-  left: 10%;
-  right: 10%;
-  height: 1px;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(64, 224, 208, 0.2) 25%,
-    rgba(0, 191, 255, 0.3) 50%,
-    rgba(64, 224, 208, 0.2) 75%,
-    transparent 100%
-  );
-  box-shadow: 0 0 10px rgba(64, 224, 208, 0.3);
-  animation: rimLightFlow 6s ease-in-out infinite;
-}
-
-@keyframes rimLightFlow {
-  0%, 100% {
-    opacity: 0.3;
-  }
-  50% {
-    opacity: 0.8;
-  }
-}
-
-/* 第5层：增强内容保护 */
-.content-protection-enhanced {
-  background:
-    /* 中心内容区域强化保护 */
-    radial-gradient(ellipse 65% 45% at 50% 30%, transparent 30%, rgba(3,5,8,0.15) 50%, rgba(3,5,8,0.5) 80%),
-    /* 底部钢琴区域遮罩 */
-    linear-gradient(180deg, transparent 0%, transparent 60%, rgba(3,5,8,0.4) 80%, rgba(3,5,8,0.85) 100%),
-    /* 顶部环境遮罩 */
-    linear-gradient(180deg, rgba(3,5,8,0.4) 0%, transparent 20%);
-}
-
-/* SVG 环境粒子 */
-.ambient-particle {
-  animation: ambientFloat 6s ease-in-out infinite;
-  opacity: 0;
-}
-
-@keyframes ambientFloat {
-  0%, 100% {
-    opacity: 0;
-    transform: translateY(0) scale(0.8);
-  }
-  50% {
-    opacity: 0.6;
-    transform: translateY(-20px) scale(1.2);
-  }
-}
-
-/* 移动端优化 */
 @media (max-width: 768px) {
-  .piano-keyboard-realistic {
-    bottom: 8%;
-    height: 12%;
-    left: 5%;
-    right: 5%;
-    transform: perspective(800px) rotateX(15deg);
+  .hero-piano-container {
+    height: clamp(170px, 25vh, 240px);
   }
 
-  .piano-body {
-    bottom: 6%;
-    height: 2%;
-    left: 5%;
-    right: 5%;
+  .hero-piano-image {
+    bottom: -8px;
+    width: 100vw;
+    object-position: center bottom;
+    filter: brightness(0.68) contrast(1.04) saturate(0.76);
+    opacity: 0.46;
   }
 
-  .music-streams-canvas {
-    opacity: 0.6;
-  }
-
-  .stage-glow {
-    bottom: 20%;
-    left: 10%;
-    right: 10%;
-    height: 15%;
-  }
-
-  .musical-base-realistic {
-    background:
-      radial-gradient(ellipse 120% 60% at 50% 85%, rgba(25, 45, 80, 0.1), transparent 60%),
-      linear-gradient(180deg, #030508 0%, #060a12 50%, #08101a 100%);
+  .piano-top-mask {
+    height: 78%;
   }
 }
 
-/* 减动效偏好支持 */
-@media (prefers-reduced-motion: reduce) {
-  .white-key-realistic,
-  .black-key-realistic,
-  .key-reflection,
-  .stage-glow,
-  .piano-rim-light,
-  .ambient-particle {
-    animation: none;
+@media (max-width: 480px) {
+  .hero-piano-container {
+    height: clamp(145px, 22vh, 190px);
   }
 
-  .music-streams-canvas {
-    display: none;
+  .hero-piano-image {
+    bottom: -4px;
+    width: 100vw;
+    filter: brightness(0.64) contrast(1.04) saturate(0.74);
+    opacity: 0.44;
   }
 
-  .white-key-realistic {
-    background: #eae6e0;
-  }
-
-  .black-key-realistic {
-    background: #0f0f12;
+  .piano-top-mask {
+    height: 82%;
   }
 }

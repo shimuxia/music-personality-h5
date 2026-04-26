@@ -1,6 +1,6 @@
 import type { ResultProfile } from '../types/quiz'
 import { useScrollReveal, useStaggerReveal } from '../hooks/useScrollReveal'
-import { HeroBackground } from '../components/shared/HeroBackground'
+import { HeroPiano } from '../components/shared/HeroPiano'
 
 interface HomePageProps {
   profiles: ResultProfile[]
@@ -19,9 +19,13 @@ export function HomePage({ profiles, onStart }: HomePageProps) {
     <main className="min-h-screen">
       {/* 首屏 Hero Section */}
       <section className="flex min-h-screen items-center relative overflow-hidden">
-        {/* 钢琴背景效果 */}
-        <HeroBackground />
+        {/* 背景视觉连接 */}
+        <div className="absolute inset-0 hero-glow"></div>
 
+        {/* 真实钢琴底图 */}
+        <HeroPiano />
+
+        {/* 蓝色粒子特效层 */}
         <div className="mx-auto w-full max-w-6xl px-6 py-16 sm:px-8 relative z-10">
           <div className="grid items-center gap-12 lg:grid-cols-[1.2fr_340px] xl:gap-16 2xl:gap-20">
 
