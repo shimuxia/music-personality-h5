@@ -1,5 +1,6 @@
 import type { ResultProfile } from '../types/quiz'
 import { useScrollReveal, useStaggerReveal } from '../hooks/useScrollReveal'
+import { HeroBackground } from '../components/shared/HeroBackground'
 
 interface HomePageProps {
   profiles: ResultProfile[]
@@ -19,8 +20,8 @@ export function HomePage({ profiles, questionCount, onStart }: HomePageProps) {
     <main className="min-h-screen">
       {/* 首屏 Hero Section */}
       <section className="flex min-h-screen items-center relative overflow-hidden">
-        {/* 背景视觉连接 */}
-        <div className="absolute inset-0 hero-glow"></div>
+        {/* 钢琴背景效果 */}
+        <HeroBackground />
 
         <div className="mx-auto w-full max-w-6xl px-6 py-16 sm:px-8 relative z-10">
           <div className="grid items-center gap-12 lg:grid-cols-[1.2fr_340px] xl:gap-16 2xl:gap-20">
@@ -33,7 +34,7 @@ export function HomePage({ profiles, questionCount, onStart }: HomePageProps) {
                   animation: 'heroFadeUp 0.8s ease-out 0.1s both'
                 }}
               >
-                Music Personality Test
+                FATE NOTE TYPE
               </p>
 
               <div className="mt-10">
@@ -63,7 +64,7 @@ export function HomePage({ profiles, questionCount, onStart }: HomePageProps) {
                   animation: 'heroFadeUp 0.7s ease-out 0.65s both'
                 }}
               >
-                {questionCount} 道题，不到 1 分钟，看见你如何与世界共振。
+                {questionCount} 道题，不到 1 分钟，找到属于你的音格。
               </p>
 
               <div
@@ -72,16 +73,26 @@ export function HomePage({ profiles, questionCount, onStart }: HomePageProps) {
                   animation: 'heroFadeUp 0.7s ease-out 0.8s both'
                 }}
               >
-                <button
-                  type="button"
-                  onClick={onStart}
-                  className="group inline-flex items-center rounded-[32px] bg-[#faf8f3] px-9 py-[14px] text-[15px] font-medium text-[#0a0b0f] transition-all duration-300 hover:bg-sand/90 hover:-translate-y-[2px] hover:shadow-[0_8px_30px_rgba(199,176,139,0.15)] focus:outline-none focus:ring-2 focus:ring-sand/30 focus:ring-offset-2 focus:ring-offset-transparent"
-                >
-                  开始测试
-                  <svg className="ml-2 w-[15px] h-[15px] transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <button
+                    type="button"
+                    onClick={onStart}
+                    className="group inline-flex items-center justify-center rounded-[32px] bg-[#faf8f3] px-9 py-[14px] text-[15px] font-medium text-[#0a0b0f] transition-all duration-300 hover:bg-sand/90 hover:-translate-y-[2px] hover:shadow-[0_8px_30px_rgba(199,176,139,0.15)] focus:outline-none focus:ring-2 focus:ring-sand/30 focus:ring-offset-2 focus:ring-offset-transparent"
+                  >
+                    开始快速测试
+                    <svg className="ml-2 w-[15px] h-[15px] transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+
+                  <button
+                    type="button"
+                    className="group inline-flex items-center justify-center rounded-[32px] border border-sand/30 bg-transparent px-9 py-[14px] text-[15px] font-medium text-sand/80 transition-all duration-300 hover:bg-sand/10 hover:border-sand/50 hover:-translate-y-[2px] focus:outline-none focus:ring-2 focus:ring-sand/30 focus:ring-offset-2 focus:ring-offset-transparent"
+                  >
+                    进入精确版
+                    <span className="ml-2 text-[11px] text-sand/60">Coming Soon</span>
+                  </button>
+                </div>
 
                 <p
                   className="mt-7 text-[14px] text-mist/55 font-light tracking-[0.01em]"
@@ -89,7 +100,7 @@ export function HomePage({ profiles, questionCount, onStart }: HomePageProps) {
                     animation: 'heroFadeUp 0.6s ease-out 0.95s both'
                   }}
                 >
-                  单选 · 无需注册 · 适合截图分享
+                  单选 · 无需登录 · 即刻生成结果卡
                 </p>
               </div>
             </div>
