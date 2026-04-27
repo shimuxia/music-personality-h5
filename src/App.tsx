@@ -77,8 +77,9 @@ function App() {
       return
     }
 
+    const shareLine = result.shareLine || result.subtitle
     const shareText = `我测出的天命音符是 ${result.note}「${result.title}」
-${result.subtitle}
+${shareLine}
 
 来测你的天命音符：
 https://music-personality-h5.vercel.app/`
