@@ -35,7 +35,7 @@ export function PrecisionModal({ isOpen, onClose }: PrecisionModalProps) {
           36 道题，分析你的主音符、副音符与隐藏音格。
         </p>
         <p className="mt-6 text-[14px] leading-7 text-mist/58">
-          快速版会告诉你最明显的主音符。精确版会进一步分析：
+          快速版看到的是你最亮的那面。精确版帮你看见自己还没注意到的那面。
         </p>
         <div className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
           {reportItems.map((item) => (
@@ -55,7 +55,7 @@ export function PrecisionModal({ isOpen, onClose }: PrecisionModalProps) {
           onClick={onClose}
           className="mt-6 w-full rounded-full bg-mist px-6 py-3 text-[14px] font-medium text-ink transition-all duration-200 hover:-translate-y-0.5 hover:bg-mist/90"
         >
-          我知道了
+          期待一下
         </button>
       </section>
     </div>
