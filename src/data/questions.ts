@@ -249,4 +249,66 @@ export const questions: Question[] = [
       },
     ],
   },
+  {
+    id: 'alone-time',
+    prompt: '当你终于有一段没人打扰的时间，你更可能做什么？',
+    scene: '独处时的选择，常常会暴露你真正的恢复方式。',
+    options: [
+      {
+        id: 'alone-time-order',
+        label: 'A',
+        text: '整理房间、清空列表，让一切重新有秩序。',
+        weights: { C: 3, G: 1 },
+      },
+      {
+        id: 'alone-time-walk',
+        label: 'B',
+        text: '出门走走，看看有没有新的地方和新的灵感。',
+        weights: { D: 3, G: 1 },
+      },
+      {
+        id: 'alone-time-headphones',
+        label: 'C',
+        text: '戴上耳机，沉进自己的情绪里。',
+        weights: { A: 2, F: 2 },
+      },
+      {
+        id: 'alone-time-recover',
+        label: 'D',
+        text: '什么都不急着做，先让自己慢慢恢复。',
+        weights: { F: 3, C: 1 },
+      },
+    ],
+  },
+  {
+    id: 'changed-plan',
+    prompt: '计划突然被打乱时，你的第一反应更接近哪一种？',
+    scene: '变化来临的那一秒，最容易听见你的底层节拍。',
+    options: [
+      {
+        id: 'changed-plan-check',
+        label: 'A',
+        text: '先确认影响范围，再重新安排。',
+        weights: { C: 2, G: 2 },
+      },
+      {
+        id: 'changed-plan-possibility',
+        label: 'B',
+        text: '也许这样会出现更有意思的可能。',
+        weights: { D: 2, B: 2 },
+      },
+      {
+        id: 'changed-plan-digest',
+        label: 'C',
+        text: '情绪会先被晃一下，但很快开始消化。',
+        weights: { A: 2, E: 2 },
+      },
+      {
+        id: 'changed-plan-pause',
+        label: 'D',
+        text: '暂停一下，不急着立刻反应。',
+        weights: { F: 3, A: 1 },
+      },
+    ],
+  },
 ]

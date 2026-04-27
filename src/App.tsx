@@ -3,6 +3,7 @@ import { HomePage } from './pages/HomePage'
 import { QuizPage } from './pages/QuizPage'
 import { ResultPage } from './pages/ResultPage'
 import { Toast } from './components/shared/Toast'
+import { PrecisionModal } from './components/shared/PrecisionModal'
 import { questions } from './data/questions'
 import { resultProfiles } from './data/results'
 import { resolveQuizResult } from './lib/quiz'
@@ -17,6 +18,7 @@ function App() {
   const [result, setResult] = useState<ResultProfile | null>(null)
   const [hasCopied, setHasCopied] = useState(false)
   const [copyFailed, setCopyFailed] = useState(false)
+  const [isPrecisionModalOpen, setIsPrecisionModalOpen] = useState(false)
   const [toast, setToast] = useState<{
     message: string
     type: 'success' | 'error'
@@ -49,6 +51,7 @@ function App() {
     setResult(null)
     setHasCopied(false)
     setCopyFailed(false)
+    setIsPrecisionModalOpen(false)
     setToast({ message: '', type: 'success', isVisible: false })
     setView('home')
   }
@@ -76,6 +79,7 @@ function App() {
 
     const shareText = `我测出的天命音符是 ${result.note}「${result.title}」
 ${result.subtitle}
+
 来测你的天命音符：
 https://music-personality-h5.vercel.app/`
 
@@ -84,7 +88,7 @@ https://music-personality-h5.vercel.app/`
       setHasCopied(true)
       setCopyFailed(false)
       setToast({
-        message: '✅ 已复制分享文案',
+        message: '已复制分享文案',
         type: 'success',
         isVisible: true,
       })
@@ -100,7 +104,7 @@ https://music-personality-h5.vercel.app/`
       setCopyFailed(true)
       setHasCopied(false)
       setToast({
-        message: '❌ 复制失败，请手动截图分享',
+        message: '复制失败，请手动截图分享',
         type: 'error',
         isVisible: true,
       })
@@ -134,6 +138,7 @@ https://music-personality-h5.vercel.app/`
           <HomePage
             profiles={Object.values(resultProfiles)}
             onStart={handleStart}
+            onOpenPrecision={() => setIsPrecisionModalOpen(true)}
           />
         )}
 
@@ -152,6 +157,7 @@ https://music-personality-h5.vercel.app/`
             result={result}
             onCopyShareText={handleCopyShareText}
             onRestart={handleRestart}
+            onOpenPrecision={() => setIsPrecisionModalOpen(true)}
             copied={hasCopied}
             copyFailed={copyFailed}
           />
@@ -162,6 +168,10 @@ https://music-personality-h5.vercel.app/`
           type={toast.type}
           isVisible={toast.isVisible}
           onClose={handleToastClose}
+        />
+        <PrecisionModal
+          isOpen={isPrecisionModalOpen}
+          onClose={() => setIsPrecisionModalOpen(false)}
         />
       </div>
     </div>

@@ -6,6 +6,7 @@ interface ResultPageProps {
   result: ResultProfile
   onCopyShareText: () => void
   onRestart: () => void
+  onOpenPrecision: () => void
   copied: boolean
   copyFailed: boolean
 }
@@ -14,6 +15,7 @@ export function ResultPage({
   result,
   onCopyShareText,
   onRestart,
+  onOpenPrecision,
   copied,
   copyFailed,
 }: ResultPageProps) {
@@ -68,10 +70,10 @@ export function ResultPage({
                 }`}
               >
                 {copyFailed
-                  ? '✗ 复制失败，请手动长按截图'
+                  ? '复制失败，请手动长按截图'
                   : copied
-                  ? '✓ 已复制分享文案'
-                  : '📱 复制分享文案'
+                  ? '已复制分享文案'
+                  : '复制分享文案'
                 }
               </button>
               <button
@@ -86,6 +88,21 @@ export function ResultPage({
               <span className="text-sand/50">📸</span>
               保存结果卡分享
             </p>
+          </div>
+
+          <div className="mt-10 rounded-2xl border border-white/6 bg-white/[0.012] p-6">
+            <p className="max-w-lg text-[16px] leading-7 text-mist/72 font-light">
+              你的主音符已经出现。
+              <br />
+              但一个人的旋律，往往不止一个音。
+            </p>
+            <button
+              type="button"
+              onClick={onOpenPrecision}
+              className="mt-5 rounded-full border border-sand/18 bg-sand/[0.035] px-6 py-3 text-[13px] text-sand/75 transition-all duration-200 hover:-translate-y-0.5 hover:border-sand/30 hover:bg-sand/[0.055]"
+            >
+              查看精确版音格报告
+            </button>
           </div>
 
           {/* 未来产品区 - 弱化处理 */}
