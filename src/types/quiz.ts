@@ -22,6 +22,7 @@ export interface ResultProfile {
   subtitle: string
   keywords: string[]
   description: string
+  caution: string
   shareLine: string
   paletteHint: string
 }

@@ -46,6 +46,14 @@ export function ResultPage({
             <p className="max-w-2xl text-[15px] leading-[1.6] text-mist/65 sm:text-[16px]">
               {result.description}
             </p>
+            <div className="mt-5 max-w-2xl rounded-2xl border border-white/6 bg-white/[0.015] px-5 py-4">
+              <p className="text-[10px] uppercase tracking-[0.28em] text-sand/45 font-medium">
+                你可能也会这样
+              </p>
+              <p className="mt-3 text-[14px] leading-[1.6] text-mist/58">
+                {result.caution}
+              </p>
+            </div>
           </div>
 
           {/* 标签区 */}
