@@ -14,7 +14,7 @@ const COPY_RESET_MS = 2200
 function App() {
   const [view, setView] = useState<ViewState>('home')
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
-  const [selectedOptions, setSelectedOptions] = useState<QuestionOption[]>([])
+  const [answers, setAnswers] = useState<Array<QuestionOption | null>>([])
   const [result, setResult] = useState<ResultProfile | null>(null)
   const [hasCopied, setHasCopied] = useState(false)
   const [copyFailed, setCopyFailed] = useState(false)
@@ -40,14 +40,14 @@ function App() {
 
   const handleStart = () => {
     setCurrentQuestionIndex(0)
-    setSelectedOptions([])
+    setAnswers([])
     setResult(null)
     setView('quiz')
   }
 
   const handleRestart = () => {
     setCurrentQuestionIndex(0)
-    setSelectedOptions([])
+    setAnswers([])
     setResult(null)
     setHasCopied(false)
     setCopyFailed(false)
@@ -57,13 +57,15 @@ function App() {
   }
 
   const handleSelectOption = (option: QuestionOption) => {
-    const nextSelections = [...selectedOptions, option]
-    setSelectedOptions(nextSelections)
+    const nextAnswers = [...answers]
+    nextAnswers[currentQuestionIndex] = option
+    setAnswers(nextAnswers)
 
     const isLastQuestion = currentQuestionIndex === questions.length - 1
 
     if (isLastQuestion) {
-      const quizResult = resolveQuizResult(nextSelections, resultProfiles)
+      const completedAnswers = nextAnswers.filter((answer): answer is QuestionOption => Boolean(answer))
+      const quizResult = resolveQuizResult(completedAnswers, resultProfiles)
       setResult(quizResult)
       setView('result')
       return
@@ -72,16 +74,21 @@ function App() {
     setCurrentQuestionIndex((index) => index + 1)
   }
 
+  const handlePreviousQuestion = () => {
+    setCurrentQuestionIndex((index) => Math.max(0, index - 1))
+  }
+
   const handleCopyShareText = async () => {
     if (!result) {
       return
     }
 
     const shareLine = result.shareLine || result.subtitle
-    const shareText = `我测出的天命音符是 ${result.note}「${result.title}」
+    const shareText = `${result.note}「${result.title}」
+
 ${shareLine}
 
-来测你的天命音符：
+测你的天命音符：
 https://music-personality-h5.vercel.app/`
 
     try {
@@ -147,8 +154,10 @@ https://music-personality-h5.vercel.app/`
           <QuizPage
             currentIndex={currentQuestionIndex}
             question={questions[currentQuestionIndex]}
+            selectedOption={answers[currentQuestionIndex]}
             total={questions.length}
             onRestart={handleRestart}
+            onPrevious={handlePreviousQuestion}
             onSelect={handleSelectOption}
           />
         )}
