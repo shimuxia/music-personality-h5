@@ -2,6 +2,8 @@ import type { ResultProfile } from '../types/quiz'
 import { useScrollReveal, useStaggerReveal } from '../hooks/useScrollReveal'
 import { HeroPiano } from '../components/shared/HeroPiano'
 
+const blackKeyNotes = ['C♯ / D♭', 'D♯ / E♭', 'F♯ / G♭', 'G♯ / A♭', 'A♯ / B♭']
+
 interface HomePageProps {
   profiles: ResultProfile[]
   onStart: () => void
@@ -172,7 +174,7 @@ export function HomePage({ profiles, onStart, onStartPrecision }: HomePageProps)
             className={`mt-20 lg:mt-24 text-center scroll-reveal-fast ${bottomNoteReveal.isRevealed ? 'revealed' : ''}`}
           >
             <p className="text-[11px] font-medium uppercase tracking-[0.32em] text-sand/50">
-              7 Notes / 7 Personalities
+              7 Main Notes / 5 Black Keys / Hidden Tone
             </p>
           </div>
         </div>
@@ -189,7 +191,7 @@ export function HomePage({ profiles, onStart, onStartPrecision }: HomePageProps)
               ref={titleReveal.elementRef}
               className={`font-sans text-[32px] font-light tracking-[-0.02em] text-[#faf8f3] sm:text-[40px] lg:text-[48px] leading-[1.15] scroll-reveal ${titleReveal.isRevealed ? 'revealed' : ''}`}
             >
-              七枚音符，七种共振方式
+              七种主音格，五种黑键副音符
             </h2>
             <p
               ref={subtitleReveal.elementRef}
@@ -198,7 +200,7 @@ export function HomePage({ profiles, onStart, onStartPrecision }: HomePageProps)
                 transitionDelay: subtitleReveal.isRevealed ? '0.1s' : '0s'
               }}
             >
-              每个人都会落在某个频率里。你的答案，会决定哪一枚音符更接近你。
+              快速版看见你的主音格，精确版会继续分析你的副音符与隐藏音格。
             </p>
           </div>
 
@@ -247,6 +249,25 @@ export function HomePage({ profiles, onStart, onStartPrecision }: HomePageProps)
                       {profile.subtitle.slice(0, 24)}...
                     </p>
                   </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-14 border-t border-white/6 pt-10 text-center">
+              <h3 className="text-[18px] font-light tracking-[-0.01em] text-[#faf8f3] sm:text-[22px]">
+                五种黑键副音符
+              </h3>
+              <p className="mx-auto mt-4 max-w-md text-[14px] leading-[1.6] text-mist/55 font-light">
+                精确版会根据你的主音格，判断你落在哪个黑键区间。
+              </p>
+              <div className="mx-auto mt-7 flex max-w-3xl flex-wrap justify-center gap-2.5">
+                {blackKeyNotes.map((note) => (
+                  <span
+                    key={note}
+                    className="rounded-full border border-white/8 bg-white/[0.018] px-4 py-2 text-[13px] font-light tracking-[0.02em] text-sand/72"
+                  >
+                    {note}
+                  </span>
                 ))}
               </div>
             </div>
