@@ -56,15 +56,79 @@ primaryReport = precisionReports[primaryNote]
 
 ## 5. 副音符如何计算
 
-`secondaryNote` 取 `rankedNotes[1]`，也就是总分第二高的音格。
+V0.5 起，精确版页面展示的副音符不再是另一个白键音格，而是钢琴黑键。
 
-对应报告：
+主音符 `primaryNote` 仍然从七个白键音格中产生：
 
 ```ts
-secondaryReport = precisionReports[secondaryNote]
+C、D、E、F、G、A、B
 ```
 
-## 6. 隐藏音格如何计算
+副音符通过 `secondaryBlackKey` 返回，结构如下：
+
+```ts
+{
+  key: 'C_SHARP_D_FLAT',
+  label: 'C♯ / D♭',
+  between: ['C', 'D'],
+  sourceNote: 'D',
+  description: '稳定与流动之间，说明你在秩序里保留改写路线的能力。',
+}
+```
+
+其中：
+
+- `label` 是页面展示的黑键名称。
+- `between` 表示这个黑键位于哪两个白键之间。
+- `sourceNote` 表示除了主音符外，参与形成这个黑键的相邻白键倾向。
+- `description` 是黑键副音符的解释文案。
+
+`secondaryNote` 和 `secondaryReport` 仍会保留在返回结构中，代表参与形成副音符的相邻白键倾向，主要用于调试或后续扩展；页面不应再把它作为“副音符：A「月影慢拍者」”这类白键结果展示。
+
+## 6. 黑键副音符规则
+
+钢琴黑键只存在于以下 5 组相邻白键之间：
+
+```ts
+C-D：C♯ / D♭
+D-E：D♯ / E♭
+F-G：F♯ / G♭
+G-A：G♯ / A♭
+A-B：A♯ / B♭
+```
+
+不存在：
+
+```ts
+E-F
+B-C
+```
+
+根据主音符选择可形成黑键的相邻白键：
+
+- primary C：只能和 D 形成 `C♯ / D♭`
+- primary D：可以和 C 形成 `C♯ / D♭`，也可以和 E 形成 `D♯ / E♭`，取分数更高的相邻音
+- primary E：只能和 D 形成 `D♯ / E♭`
+- primary F：只能和 G 形成 `F♯ / G♭`
+- primary G：可以和 F 形成 `F♯ / G♭`，也可以和 A 形成 `G♯ / A♭`，取分数更高的相邻音
+- primary A：可以和 G 形成 `G♯ / A♭`，也可以和 B 形成 `A♯ / B♭`，取分数更高的相邻音
+- primary B：只能和 A 形成 `A♯ / B♭`
+
+如果候选相邻音同分，仍按固定白键顺序做 tie-breaker：
+
+```ts
+C、D、E、F、G、A、B
+```
+
+5 个黑键解释固定为：
+
+- `C♯ / D♭`：稳定与流动之间，说明你在秩序里保留改写路线的能力。
+- `D♯ / E♭`：探索与表达之间，说明你被新可能吸引，也希望把真实表达出来。
+- `F♯ / G♭`：沉淀与结构之间，说明你的安静不是停滞，而是在内部搭建秩序。
+- `G♯ / A♭`：结构与感知之间，说明你会用理性保护敏感，也会用结构安放情绪。
+- `A♯ / B♭`：温柔与边界之间，说明你能照顾别人，也会在关键处保留自己的异质感。
+
+## 7. 隐藏音格如何计算
 
 隐藏音格优先看深层题得分：
 
@@ -72,13 +136,15 @@ secondaryReport = precisionReports[secondaryNote]
 2. 从 `deepRankedNotes` 中选择最高的、且不是 `primaryNote` / `secondaryNote` 的音格。
 3. 如果深层题里无法选出有效隐藏音格，则回退到总分排序中的第三个音格。
 
+这里的 `secondaryNote` 指参与形成黑键副音符的相邻白键倾向，不是页面展示的黑键 label。
+
 对应报告：
 
 ```ts
 hiddenReport = precisionReports[hiddenNote]
 ```
 
-## 7. 同分如何处理
+## 8. 同分如何处理
 
 所有排序都使用固定 tie-breaker：
 
@@ -93,10 +159,10 @@ C、D、E、F、G、A、B
 - `rankedNotes`
 - `deepRankedNotes`
 - `primaryNote`
-- `secondaryNote`
+- `secondaryBlackKey` 的相邻白键选择
 - `hiddenNote`
 
-## 8. 缺题 / 无效答案如何处理
+## 9. 缺题 / 无效答案如何处理
 
 如果某道题在 `answers` 中没有对应答案，会记录到：
 
@@ -114,7 +180,7 @@ invalidAnswerIds
 
 `answeredCount` 只统计有效作答数量。
 
-## 9. 返回结构
+## 10. 返回结构
 
 返回对象包含：
 
@@ -126,6 +192,7 @@ invalidAnswerIds
   deepRankedNotes,
   primaryNote,
   secondaryNote,
+  secondaryBlackKey,
   hiddenNote,
   primaryReport,
   secondaryReport,
@@ -136,7 +203,21 @@ invalidAnswerIds
 }
 ```
 
-## 10. 后续页面接入方式
+页面展示副音符时应使用：
+
+```ts
+result.secondaryBlackKey.label
+result.secondaryBlackKey.description
+```
+
+不要再直接展示：
+
+```ts
+result.secondaryNote
+result.secondaryReport.title
+```
+
+## 11. 后续页面接入方式
 
 后续接入精确版页面时，页面只需要把用户答案整理成题号到选项 id 的对象：
 
@@ -151,7 +232,7 @@ const result = resolvePrecisionResult({
 页面可以使用：
 
 - `result.primaryReport` 展示主音格报告
-- `result.secondaryReport` 展示副音格报告
+- `result.secondaryBlackKey` 展示黑键副音符
 - `result.hiddenReport` 展示隐藏音格报告
 - `result.missingQuestionIds` 判断是否还有题目未答
 - `result.invalidAnswerIds` 排查异常答案输入

@@ -71,18 +71,24 @@ export function PrecisionResultPage({ answers, onRestart, onReturnHome }: Precis
           </header>
 
           <section className="grid gap-3 sm:grid-cols-3">
-            {[
-              ['主音符', result.primaryNote, result.primaryReport.title],
-              ['副音符', result.secondaryNote, result.secondaryReport.title],
-              ['隐藏音格', result.hiddenNote, result.hiddenReport.title],
-            ].map(([label, note, title]) => (
-              <div key={label} className="rounded-2xl border border-sand/12 bg-sand/[0.03] p-5">
-                <p className="text-[11px] uppercase tracking-[0.22em] text-sand/45">Result</p>
-                <p className="mt-3 text-[20px] leading-snug text-mist">
-                  {label}：{note}「{title}」
-                </p>
-              </div>
-            ))}
+            <div className="rounded-2xl border border-sand/12 bg-sand/[0.03] p-5">
+              <p className="text-[11px] uppercase tracking-[0.22em] text-sand/45">Result</p>
+              <p className="mt-3 text-[20px] leading-snug text-mist">
+                主音符：{result.primaryNote}「{result.primaryReport.title}」
+              </p>
+            </div>
+            <div className="rounded-2xl border border-sand/12 bg-sand/[0.03] p-5">
+              <p className="text-[11px] uppercase tracking-[0.22em] text-sand/45">Result</p>
+              <p className="mt-3 text-[20px] leading-snug text-mist">
+                副音符：{result.secondaryBlackKey.label}
+              </p>
+            </div>
+            <div className="rounded-2xl border border-sand/12 bg-sand/[0.03] p-5">
+              <p className="text-[11px] uppercase tracking-[0.22em] text-sand/45">Result</p>
+              <p className="mt-3 text-[20px] leading-snug text-mist">
+                隐藏音格：{result.hiddenNote}「{result.hiddenReport.title}」
+              </p>
+            </div>
           </section>
 
           <section className="space-y-5">
@@ -113,13 +119,13 @@ export function PrecisionResultPage({ answers, onRestart, onReturnHome }: Precis
                 Secondary Note
               </p>
               <h2 className="mt-3 text-[24px] font-light text-mist">
-                副音符：{result.secondaryNote}「{result.secondaryReport.title}」
+                副音符：{result.secondaryBlackKey.label}
               </h2>
               <p className="mt-4 text-[17px] leading-7 text-mist/78">
-                {result.secondaryReport.coreLine}
+                {result.secondaryBlackKey.description}
               </p>
-              <p className="mt-5 text-[14px] leading-7 text-mist/58">
-                {result.secondaryReport.summary}
+              <p className="mt-5 text-[13px] leading-6 text-mist/45">
+                由你的主音符 {result.primaryNote} 与相邻倾向 {result.secondaryBlackKey.sourceNote} 共同形成。
               </p>
             </div>
 

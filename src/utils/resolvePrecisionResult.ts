@@ -21,6 +21,21 @@ export interface InvalidPrecisionAnswer {
   answerId: string
 }
 
+export type SecondaryBlackKeyId =
+  | 'C_SHARP_D_FLAT'
+  | 'D_SHARP_E_FLAT'
+  | 'F_SHARP_G_FLAT'
+  | 'G_SHARP_A_FLAT'
+  | 'A_SHARP_B_FLAT'
+
+export interface SecondaryBlackKey {
+  key: SecondaryBlackKeyId
+  label: string
+  between: [PrecisionTone, PrecisionTone]
+  sourceNote: PrecisionTone
+  description: string
+}
+
 export interface PrecisionResultResolution {
   scores: PrecisionScores
   deepScores: PrecisionScores
@@ -28,6 +43,7 @@ export interface PrecisionResultResolution {
   deepRankedNotes: PrecisionRankedNote[]
   primaryNote: PrecisionTone
   secondaryNote: PrecisionTone
+  secondaryBlackKey: SecondaryBlackKey
   hiddenNote: PrecisionTone
   primaryReport: PrecisionReport
   secondaryReport: PrecisionReport
@@ -44,6 +60,61 @@ const precisionAnswerIds = ['A', 'B', 'C', 'D'] as const satisfies readonly Prec
 const precisionToneOrderIndex = new Map<PrecisionTone, number>(
   precisionToneOrder.map((note, index) => [note, index]),
 )
+
+const secondaryBlackKeyDefinitions: Record<SecondaryBlackKeyId, Omit<SecondaryBlackKey, 'sourceNote'>> = {
+  C_SHARP_D_FLAT: {
+    key: 'C_SHARP_D_FLAT',
+    label: 'C♯ / D♭',
+    between: ['C', 'D'],
+    description: '稳定与流动之间，说明你在秩序里保留改写路线的能力。',
+  },
+  D_SHARP_E_FLAT: {
+    key: 'D_SHARP_E_FLAT',
+    label: 'D♯ / E♭',
+    between: ['D', 'E'],
+    description: '探索与表达之间，说明你被新可能吸引，也希望把真实表达出来。',
+  },
+  F_SHARP_G_FLAT: {
+    key: 'F_SHARP_G_FLAT',
+    label: 'F♯ / G♭',
+    between: ['F', 'G'],
+    description: '沉淀与结构之间，说明你的安静不是停滞，而是在内部搭建秩序。',
+  },
+  G_SHARP_A_FLAT: {
+    key: 'G_SHARP_A_FLAT',
+    label: 'G♯ / A♭',
+    between: ['G', 'A'],
+    description: '结构与感知之间，说明你会用理性保护敏感，也会用结构安放情绪。',
+  },
+  A_SHARP_B_FLAT: {
+    key: 'A_SHARP_B_FLAT',
+    label: 'A♯ / B♭',
+    between: ['A', 'B'],
+    description: '温柔与边界之间，说明你能照顾别人，也会在关键处保留自己的异质感。',
+  },
+}
+
+const secondaryBlackKeyCandidates: Record<
+  PrecisionTone,
+  Array<{ note: PrecisionTone; blackKeyId: SecondaryBlackKeyId }>
+> = {
+  C: [{ note: 'D', blackKeyId: 'C_SHARP_D_FLAT' }],
+  D: [
+    { note: 'C', blackKeyId: 'C_SHARP_D_FLAT' },
+    { note: 'E', blackKeyId: 'D_SHARP_E_FLAT' },
+  ],
+  E: [{ note: 'D', blackKeyId: 'D_SHARP_E_FLAT' }],
+  F: [{ note: 'G', blackKeyId: 'F_SHARP_G_FLAT' }],
+  G: [
+    { note: 'F', blackKeyId: 'F_SHARP_G_FLAT' },
+    { note: 'A', blackKeyId: 'G_SHARP_A_FLAT' },
+  ],
+  A: [
+    { note: 'G', blackKeyId: 'G_SHARP_A_FLAT' },
+    { note: 'B', blackKeyId: 'A_SHARP_B_FLAT' },
+  ],
+  B: [{ note: 'A', blackKeyId: 'A_SHARP_B_FLAT' }],
+}
 
 const createEmptyScores = (): PrecisionScores =>
   Object.fromEntries(precisionToneOrder.map((note) => [note, 0])) as PrecisionScores
@@ -71,6 +142,20 @@ const addScores = (scoreMap: Partial<Record<PrecisionTone, number>>, scores: Pre
 
     scores[note] += score
   })
+}
+
+const resolveSecondaryBlackKey = (primaryNote: PrecisionTone, scores: PrecisionScores): SecondaryBlackKey => {
+  const [selectedCandidate] = secondaryBlackKeyCandidates[primaryNote].slice().sort(
+    (left, right) =>
+      scores[right.note] - scores[left.note] ||
+      (precisionToneOrderIndex.get(left.note) ?? 0) - (precisionToneOrderIndex.get(right.note) ?? 0),
+  )
+  const definition = secondaryBlackKeyDefinitions[selectedCandidate.blackKeyId]
+
+  return {
+    ...definition,
+    sourceNote: selectedCandidate.note,
+  }
 }
 
 const resolveHiddenNote = (
@@ -132,7 +217,8 @@ export const resolvePrecisionResult = (answers: PrecisionAnswers = {}): Precisio
   const rankedNotes = rankScores(scores)
   const deepRankedNotes = rankScores(deepScores)
   const primaryNote = rankedNotes[0]?.note ?? 'C'
-  const secondaryNote = rankedNotes[1]?.note ?? 'D'
+  const secondaryBlackKey = resolveSecondaryBlackKey(primaryNote, scores)
+  const secondaryNote = secondaryBlackKey.sourceNote
   const hiddenNote = resolveHiddenNote(rankedNotes, deepRankedNotes, primaryNote, secondaryNote)
 
   return {
@@ -142,6 +228,7 @@ export const resolvePrecisionResult = (answers: PrecisionAnswers = {}): Precisio
     deepRankedNotes,
     primaryNote,
     secondaryNote,
+    secondaryBlackKey,
     hiddenNote,
     primaryReport: precisionReports[primaryNote],
     secondaryReport: precisionReports[secondaryNote],
