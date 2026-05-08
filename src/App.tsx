@@ -2,23 +2,29 @@ import { useEffect, useRef, useState } from 'react'
 import { HomePage } from './pages/HomePage'
 import { QuizPage } from './pages/QuizPage'
 import { ResultPage } from './pages/ResultPage'
+import { PrecisionQuizPage } from './pages/PrecisionQuizPage'
+import { PrecisionResultPage } from './pages/PrecisionResultPage'
 import { Toast } from './components/shared/Toast'
-import { PrecisionModal } from './components/shared/PrecisionModal'
 import { questions } from './data/questions'
 import { resultProfiles } from './data/results'
+import { precisionQuestions, type PrecisionOptionId } from './data/precisionQuestions'
 import { resolveQuizResult } from './lib/quiz'
 import type { QuestionOption, ResultProfile, ViewState } from './types/quiz'
 
 const COPY_RESET_MS = 2200
 
+type AppViewState = ViewState | 'precisionQuiz' | 'precisionResult'
+type PrecisionAnswers = Partial<Record<string, PrecisionOptionId>>
+
 function App() {
-  const [view, setView] = useState<ViewState>('home')
+  const [view, setView] = useState<AppViewState>('home')
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [answers, setAnswers] = useState<Array<QuestionOption | null>>([])
   const [result, setResult] = useState<ResultProfile | null>(null)
+  const [precisionQuestionIndex, setPrecisionQuestionIndex] = useState(0)
+  const [precisionAnswers, setPrecisionAnswers] = useState<PrecisionAnswers>({})
   const [hasCopied, setHasCopied] = useState(false)
   const [copyFailed, setCopyFailed] = useState(false)
-  const [isPrecisionModalOpen, setIsPrecisionModalOpen] = useState(false)
   const [toast, setToast] = useState<{
     message: string
     type: 'success' | 'error'
@@ -42,16 +48,25 @@ function App() {
     setCurrentQuestionIndex(0)
     setAnswers([])
     setResult(null)
+    setHasCopied(false)
+    setCopyFailed(false)
     setView('quiz')
   }
 
-  const handleRestart = () => {
+  const handleStartPrecision = () => {
+    setPrecisionQuestionIndex(0)
+    setPrecisionAnswers({})
+    setView('precisionQuiz')
+  }
+
+  const handleReturnHome = () => {
     setCurrentQuestionIndex(0)
     setAnswers([])
     setResult(null)
+    setPrecisionQuestionIndex(0)
+    setPrecisionAnswers({})
     setHasCopied(false)
     setCopyFailed(false)
-    setIsPrecisionModalOpen(false)
     setToast({ message: '', type: 'success', isVisible: false })
     setView('home')
   }
@@ -76,6 +91,35 @@ function App() {
 
   const handlePreviousQuestion = () => {
     setCurrentQuestionIndex((index) => Math.max(0, index - 1))
+  }
+
+  const handleSelectPrecisionOption = (optionId: PrecisionOptionId) => {
+    const currentQuestion = precisionQuestions[precisionQuestionIndex]
+    const nextAnswers = {
+      ...precisionAnswers,
+      [currentQuestion.id]: optionId,
+    }
+
+    setPrecisionAnswers(nextAnswers)
+
+    const isLastQuestion = precisionQuestionIndex === precisionQuestions.length - 1
+
+    if (isLastQuestion) {
+      setView('precisionResult')
+      return
+    }
+
+    setPrecisionQuestionIndex((index) => index + 1)
+  }
+
+  const handlePreviousPrecisionQuestion = () => {
+    setPrecisionQuestionIndex((index) => Math.max(0, index - 1))
+  }
+
+  const handleRestartPrecision = () => {
+    setPrecisionQuestionIndex(0)
+    setPrecisionAnswers({})
+    setView('precisionQuiz')
   }
 
   const handleCopyShareText = async () => {
@@ -146,7 +190,7 @@ https://music-personality-h5.vercel.app/`
           <HomePage
             profiles={Object.values(resultProfiles)}
             onStart={handleStart}
-            onOpenPrecision={() => setIsPrecisionModalOpen(true)}
+            onStartPrecision={handleStartPrecision}
           />
         )}
 
@@ -156,7 +200,7 @@ https://music-personality-h5.vercel.app/`
             question={questions[currentQuestionIndex]}
             selectedOption={answers[currentQuestionIndex]}
             total={questions.length}
-            onRestart={handleRestart}
+            onRestart={handleReturnHome}
             onPrevious={handlePreviousQuestion}
             onSelect={handleSelectOption}
           />
@@ -166,10 +210,28 @@ https://music-personality-h5.vercel.app/`
           <ResultPage
             result={result}
             onCopyShareText={handleCopyShareText}
-            onRestart={handleRestart}
-            onOpenPrecision={() => setIsPrecisionModalOpen(true)}
+            onRestart={handleReturnHome}
+            onStartPrecision={handleStartPrecision}
             copied={hasCopied}
             copyFailed={copyFailed}
+          />
+        )}
+
+        {view === 'precisionQuiz' && (
+          <PrecisionQuizPage
+            currentIndex={precisionQuestionIndex}
+            answers={precisionAnswers}
+            onReturnHome={handleReturnHome}
+            onPrevious={handlePreviousPrecisionQuestion}
+            onSelect={handleSelectPrecisionOption}
+          />
+        )}
+
+        {view === 'precisionResult' && (
+          <PrecisionResultPage
+            answers={precisionAnswers}
+            onRestart={handleRestartPrecision}
+            onReturnHome={handleReturnHome}
           />
         )}
 
@@ -178,10 +240,6 @@ https://music-personality-h5.vercel.app/`
           type={toast.type}
           isVisible={toast.isVisible}
           onClose={handleToastClose}
-        />
-        <PrecisionModal
-          isOpen={isPrecisionModalOpen}
-          onClose={() => setIsPrecisionModalOpen(false)}
         />
       </div>
     </div>

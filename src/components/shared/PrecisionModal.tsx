@@ -1,6 +1,7 @@
 interface PrecisionModalProps {
   isOpen: boolean
   onClose: () => void
+  onStartPrecision: () => void
 }
 
 const reportItems = [
@@ -13,9 +14,14 @@ const reportItems = [
   '适合你的旋律风格',
 ]
 
-export function PrecisionModal({ isOpen, onClose }: PrecisionModalProps) {
+export function PrecisionModal({ isOpen, onClose, onStartPrecision }: PrecisionModalProps) {
   if (!isOpen) {
     return null
+  }
+
+  const handleStart = () => {
+    onClose()
+    onStartPrecision()
   }
 
   return (
@@ -27,7 +33,7 @@ export function PrecisionModal({ isOpen, onClose }: PrecisionModalProps) {
         onClick={onClose}
       />
       <section className="relative w-full max-w-lg rounded-2xl border border-white/10 bg-[#0b0c10]/95 p-6 shadow-2xl shadow-black/40 sm:p-7">
-        <p className="text-[10px] uppercase tracking-[0.3em] text-sand/55">Coming Soon</p>
+        <p className="text-[10px] uppercase tracking-[0.3em] text-sand/55">Precision Test</p>
         <h2 className="mt-4 text-[26px] font-light leading-tight text-[#faf8f3] sm:text-[30px]">
           精确版音格测试
         </h2>
@@ -48,14 +54,14 @@ export function PrecisionModal({ isOpen, onClose }: PrecisionModalProps) {
           ))}
         </div>
         <p className="mt-6 text-[13px] leading-7 text-sand/65">
-          精确版正在打磨中，后续开放内测。
+          当前是精确版测试 MVP，结果后续会继续根据真实反馈调整。
         </p>
         <button
           type="button"
-          onClick={onClose}
+          onClick={handleStart}
           className="mt-6 w-full rounded-full bg-mist px-6 py-3 text-[14px] font-medium text-ink transition-all duration-200 hover:-translate-y-0.5 hover:bg-mist/90"
         >
-          期待一下
+          开始精确版测试
         </button>
       </section>
     </div>

@@ -5,10 +5,10 @@ import { HeroPiano } from '../components/shared/HeroPiano'
 interface HomePageProps {
   profiles: ResultProfile[]
   onStart: () => void
-  onOpenPrecision: () => void
+  onStartPrecision: () => void
 }
 
-export function HomePage({ profiles, onStart, onOpenPrecision }: HomePageProps) {
+export function HomePage({ profiles, onStart, onStartPrecision }: HomePageProps) {
   // 滚动显现hooks
   const sectionReveal = useScrollReveal<HTMLElement>({ threshold: 0.2 })
   const titleReveal = useScrollReveal<HTMLHeadingElement>({ threshold: 0.3 })
@@ -91,11 +91,10 @@ export function HomePage({ profiles, onStart, onOpenPrecision }: HomePageProps) 
 
                   <button
                     type="button"
-                    onClick={onOpenPrecision}
+                    onClick={onStartPrecision}
                     className="group inline-flex items-center justify-center rounded-[32px] border border-mist/10 bg-transparent px-9 py-[14px] text-[13px] font-light text-mist/60 transition-all duration-300 hover:border-sand/25 hover:text-mist/80 hover:-translate-y-[2px]"
                   >
-                    进入精确版
-                    <span className="ml-2 text-[10px] text-mist/25">Coming Soon</span>
+                    进入精确版测试
                   </button>
                 </div>
 

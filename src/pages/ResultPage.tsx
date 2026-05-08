@@ -6,7 +6,7 @@ interface ResultPageProps {
   result: ResultProfile
   onCopyShareText: () => void
   onRestart: () => void
-  onOpenPrecision: () => void
+  onStartPrecision: () => void
   copied: boolean
   copyFailed: boolean
 }
@@ -15,7 +15,7 @@ export function ResultPage({
   result,
   onCopyShareText,
   onRestart,
-  onOpenPrecision,
+  onStartPrecision,
   copied,
   copyFailed,
 }: ResultPageProps) {
@@ -106,10 +106,10 @@ export function ResultPage({
             </p>
             <button
               type="button"
-              onClick={onOpenPrecision}
+              onClick={onStartPrecision}
               className="mt-5 rounded-full border border-sand/18 bg-sand/[0.035] px-6 py-3 text-[13px] text-sand/75 transition-all duration-200 hover:-translate-y-0.5 hover:border-sand/30 hover:bg-sand/[0.055]"
             >
-              查看精确版音格报告
+              进入精确版测试
             </button>
           </div>
 
