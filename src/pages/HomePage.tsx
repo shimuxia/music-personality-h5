@@ -271,6 +271,39 @@ export function HomePage({ profiles, onStart, onStartPrecision }: HomePageProps)
                 ))}
               </div>
             </div>
+
+            {/* 理解你的三层音格说明模块 */}
+            <div className="mt-16 border-t border-white/4 pt-12">
+              <div className="text-center mb-10">
+                <p className="text-[10px] uppercase tracking-[0.3em] text-sand/40 font-medium">MUSIC PERSONALITY</p>
+                <h3 className="mt-3 text-[20px] font-light tracking-[-0.01em] text-[#faf8f3] sm:text-[24px]">
+                  理解你的三层音格
+                </h3>
+              </div>
+
+              <div className="grid gap-8 sm:gap-6 lg:grid-cols-3 max-w-4xl mx-auto">
+                <div className="text-center lg:text-left">
+                  <h4 className="text-[14px] font-medium text-sand/80 mb-3">主音格</h4>
+                  <p className="text-[13px] leading-[1.6] text-mist/55 font-light">
+                    快速版最先看见的是你的主音格，它代表你最稳定、最容易被别人感知到的那一面。
+                  </p>
+                </div>
+
+                <div className="text-center lg:text-left">
+                  <h4 className="text-[14px] font-medium text-sand/80 mb-3">黑键副音符</h4>
+                  <p className="text-[13px] leading-[1.6] text-mist/55 font-light">
+                    精确版会根据你的主音格和相邻倾向，判断你落在哪个黑键区间。它不是另一个人格，而是你的中间气质。
+                  </p>
+                </div>
+
+                <div className="text-center lg:text-left">
+                  <h4 className="text-[14px] font-medium text-sand/80 mb-3">隐藏音格</h4>
+                  <p className="text-[13px] leading-[1.6] text-mist/55 font-light">
+                    隐藏音格来自深层题，它更像你不一定常表现出来、但在压力、关系和选择里会浮现的部分。
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

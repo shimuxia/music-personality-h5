@@ -104,6 +104,11 @@ export function ResultPage({
               <br />
               但一个人的旋律，往往不止一个音。
             </p>
+            <p className="mt-4 max-w-lg text-[14px] leading-6 text-mist/58 font-light">
+              快速版看见你的主音格。
+              <br />
+              精确版会继续分析你的黑键副音符与隐藏音格。
+            </p>
             <button
               type="button"
               onClick={onStartPrecision}
